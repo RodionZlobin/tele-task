@@ -33,6 +33,12 @@ public class ProductController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/data", method = RequestMethod.GET)
+    public ResponseEntity<InfoResponse> loadData() throws FileNotFoundException {
+        InfoResponse response = productService.loadDataToDatabase();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/product",
             produces = {"application/json"},
             method = RequestMethod.GET)
@@ -58,12 +64,6 @@ public class ProductController {
                 .withType(type.orElse(null))
                 .build());
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/data", method = RequestMethod.GET)
-    public ResponseEntity<InfoResponse> loadData() throws FileNotFoundException {
-        InfoResponse response = productService.loadDataToDatabase();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
