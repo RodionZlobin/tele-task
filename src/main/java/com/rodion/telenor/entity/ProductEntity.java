@@ -9,9 +9,9 @@ import javax.validation.constraints.Pattern;
 
 @Entity(name = "Product")
 public class ProductEntity extends AbstractEntity {
-    @Pattern(regexp = ParameterConstraints.REGEXP_PHONE_OR_SUBSCRIPTION, message = "wrong parameters name")
     private String city;
     private Double price;
+    @Pattern(regexp = ParameterConstraints.REGEXP_PHONE_OR_SUBSCRIPTION, message = "wrong parameters name")
     private String type;
 
     @OneToOne(cascade = CascadeType.PERSIST)

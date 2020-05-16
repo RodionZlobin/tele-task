@@ -1,5 +1,7 @@
 package com.rodion.telenor.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rodion.telenor.domain.DataResponse;
 import com.rodion.telenor.domain.InfoResponse;
 import com.rodion.telenor.domain.ProductSearchParameters;
@@ -51,7 +53,7 @@ public class ProductController {
             @RequestParam Optional<String> property,
             @RequestParam Optional<String> property_color,
             @RequestParam Optional<Number> property_gb_limit_min,
-            @RequestParam Optional<Number> property_gb_limit_max) {
+            @RequestParam Optional<Number> property_gb_limit_max) throws JsonProcessingException {
 
         DataResponse response = productService.findAll(ProductSearchParameters.newBuilder()
                 .withCity(city.orElse(null))

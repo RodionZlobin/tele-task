@@ -7,10 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -37,15 +34,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public InfoResponse loadDataToDatabase() throws FileNotFoundException {
-        try {
-            InputStream inputStream = getClass().getResourceAsStream(FILE_NAME);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        try (InputStream inputStream = getClass().getResourceAsStream(FILE_NAME);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+
             reader.lines().skip(1).forEach(this::saveToDatabase);
             return InfoResponse.newBuilder()
                     .withResponse("Data added to in-memory DB")
                     .build();
         } catch (Exception e) {
-            throw new FileNotFoundException("File " + FILE_NAME + " not found");
+            throw new FileNotFoundException("Failed to handle file with name " + FILE_NAME);
         }
     }
 
