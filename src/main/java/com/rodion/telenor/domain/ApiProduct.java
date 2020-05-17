@@ -59,13 +59,13 @@ public class ApiProduct extends ValueObject {
             return this;
         }
 
-        public Builder withType(String type) {
-            this.type = type;
+        public Builder withProperties(String properties) {
+            this.properties = properties;
             return this;
         }
 
-        public Builder withProperties(String properties) {
-            this.properties = properties;
+        public Builder withType(String type) {
+            this.type = type;
             return this;
         }
 

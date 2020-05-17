@@ -54,10 +54,10 @@ public class ProductEntity extends AbstractEntity {
     }
 
     public static class Builder {
-        private String type;
-        private Double price;
         private String city;
+        private Double price;
         private PropertyEntity property;
+        private String type;
 
         private Builder() {
         }

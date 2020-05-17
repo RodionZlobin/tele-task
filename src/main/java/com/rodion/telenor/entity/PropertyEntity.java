@@ -33,7 +33,7 @@ public class PropertyEntity extends AbstractEntity {
 
     @Override
     protected Object[] getIdFields() {
-        return new Object[]{color, gb_limit};
+        return new Object[]{color, gb_limit, product};
     }
 
     public static Builder newBuilder() {

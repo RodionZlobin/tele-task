@@ -3,10 +3,10 @@ package com.rodion.telenor.domain;
 public class Product extends ValueObject {
     private static final long serialVersionUID = 1L;
 
-    private String type;
-    private Double price;
     private String city;
+    private Double price;
     private Property property;
+    private String type;
 
     public Product() {
     }
@@ -14,24 +14,24 @@ public class Product extends ValueObject {
     private Product(Builder builder) {
         this.city = builder.city;
         this.price = builder.price;
-        this.type = builder.type;
         this.property = builder.property;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public Double getPrice() {
-        return price;
+        this.type = builder.type;
     }
 
     public String getCity() {
         return city;
     }
 
+    public Double getPrice() {
+        return price;
+    }
+
     public Property getProperty() {
         return property;
+    }
+
+    public String getType() {
+        return type;
     }
 
     @Override
@@ -44,10 +44,10 @@ public class Product extends ValueObject {
     }
 
     public static class Builder {
-        private String type;
-        private Double price;
         private String city;
+        private Double price;
         private Property property;
+        private String type;
 
         private Builder() {
         }
@@ -62,13 +62,13 @@ public class Product extends ValueObject {
             return this;
         }
 
-        public Builder withType(String type) {
-            this.type = type;
+        public Builder withProperty(Property property) {
+            this.property = property;
             return this;
         }
 
-        public Builder withProperty(Property property) {
-            this.property = property;
+        public Builder withType(String type) {
+            this.type = type;
             return this;
         }
 

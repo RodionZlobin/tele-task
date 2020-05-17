@@ -1,40 +1,36 @@
 package com.rodion.telenor.domain;
 
-public class ProductSearchParameters {
-    private String type;
-    private Double minPrice;
-    private Double maxPrice;
+public class ProductSearchParameters extends ValueObject {
     private String city;
+    private Double maxPrice;
+    private Double minPrice;
     private String property;
     private String propertyColor;
     private Integer propertyGbLimitMax;
     private Integer propertyGbLimitMin;
+    private String type;
 
     private ProductSearchParameters(Builder builder) {
-        this.type = builder.type;
-        this.minPrice = builder.minPrice;
-        this.maxPrice = builder.maxPrice;
         this.city = builder.city;
+        this.maxPrice = builder.maxPrice;
+        this.minPrice = builder.minPrice;
         this.property = builder.property;
         this.propertyColor = builder.propertyColor;
         this.propertyGbLimitMax = builder.propertyGbLimitMax;
         this.propertyGbLimitMin = builder.propertyGbLimitMin;
+        this.type = builder.type;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public Double getMinPrice() {
-        return minPrice;
+    public String getCity() {
+        return city;
     }
 
     public Double getMaxPrice() {
         return maxPrice;
     }
 
-    public String getCity() {
-        return city;
+    public Double getMinPrice() {
+        return minPrice;
     }
 
     public String getProperty() {
@@ -53,19 +49,28 @@ public class ProductSearchParameters {
         return propertyGbLimitMin;
     }
 
+    public String getType() {
+        return type;
+    }
+
     public static Builder newBuilder() {
         return new Builder();
     }
 
+    @Override
+    protected Object[] getIdFields() {
+        return new Object[]{city, maxPrice, minPrice, property, propertyColor, propertyGbLimitMax, propertyGbLimitMin, type};
+    }
+
     public static class Builder {
-        private String type;
-        private Double minPrice;
-        private Double maxPrice;
         private String city;
+        private Double maxPrice;
+        private Double minPrice;
         private String property;
         private String propertyColor;
         private Integer propertyGbLimitMax;
         private Integer propertyGbLimitMin;
+        private String type;
 
         private Builder() {
         }
@@ -82,11 +87,6 @@ public class ProductSearchParameters {
 
         public Builder withMinPrice(Double minPrice) {
             this.minPrice = minPrice;
-            return this;
-        }
-
-        public Builder withType(String type) {
-            this.type = type;
             return this;
         }
 
@@ -107,6 +107,11 @@ public class ProductSearchParameters {
 
         public Builder withPropertyGbLimitMin(Integer propertyGbLimitMin) {
             this.propertyGbLimitMin = propertyGbLimitMin;
+            return this;
+        }
+
+        public Builder withType(String type) {
+            this.type = type;
             return this;
         }
 
