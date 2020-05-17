@@ -5,13 +5,13 @@ import java.util.List;
 public class DataResponse extends ValueObject {
     private static final long serialVersionUID = 1L;
 
-    private List<Product> data;
+    private List<ApiProduct> data;
 
     private DataResponse(Builder builder) {
         this.data = builder.data;
     }
 
-    public List<Product> getData() {
+    public List<ApiProduct> getData() {
         return data;
     }
 
@@ -25,12 +25,12 @@ public class DataResponse extends ValueObject {
     }
 
     public static class Builder {
-        private List<Product> data;
+        private List<ApiProduct> data;
 
         private Builder() {
         }
 
-        public Builder withData(List<Product> data) {
+        public Builder withData(List<ApiProduct> data) {
             this.data = data;
             return this;
         }

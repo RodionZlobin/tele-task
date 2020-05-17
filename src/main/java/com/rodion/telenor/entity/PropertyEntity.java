@@ -27,7 +27,7 @@ public class PropertyEntity extends AbstractEntity {
         return gb_limit;
     }
 
-    private ProductEntity getProduct() {
+    public ProductEntity getProduct() {
         return product;
     }
 
@@ -39,7 +39,6 @@ public class PropertyEntity extends AbstractEntity {
     public static Builder newBuilder() {
         return new Builder();
     }
-
 
     public static class Builder {
         private String color;

@@ -1,9 +1,13 @@
 package com.rodion.telenor.domain;
 
+import com.rodion.telenor.service.ProductsField;
+
 public class Property extends ValueObject {
     private static final long serialVersionUID = 1L;
 
+    @ProductsField
     private String color;
+    @ProductsField
     private Integer gb_limit;
 
     private Property(Builder builder) {

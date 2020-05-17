@@ -7,15 +7,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 @Service
 public class ProductServiceImpl implements ProductService {
     private static final String FILE_NAME = "/data.csv";
     private static final String PROPERTY_NAME_COLOR = "color";
     private static final String PROPERTY_NAME_GB_LIMIT = "gb_limit";
-    private static final String PROPERTY_SEPARATOR = ":";
-    private static final String TABLE_SEPARATOR = ",";
+    private static final String PROPERTY_DELIMITER = ":";
+    private static final String TABLE_DELIMITER = ",";
     private static final String QUOTE = "\"";
 
     private ProductDao productDao;
@@ -26,9 +29,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public DataResponse findAll(ProductSearchParameters parameters) {
+    public DataResponse findAll(ProductSearchParameters parameters) throws IllegalAccessException {
         return DataResponse.newBuilder()
-                .withData(ProductMapper.mapToList(productDao.findAll(ProductSpecification.createSearchSpecification(parameters))))
+                .withData(ProductMapper.mapToProductsList(ProductMapper.mapToProductList(productDao.findAll(ProductSpecification.createSearchSpecification(parameters)))))
                 .build();
     }
 
@@ -48,18 +51,18 @@ public class ProductServiceImpl implements ProductService {
 
     private void saveToDatabase(String l) {
         try {
-            String[] line = l.replaceAll(QUOTE, "").split(TABLE_SEPARATOR);
+            String[] line = l.replaceAll(QUOTE, "").split(TABLE_DELIMITER);
 
             String propertyAsString = line[1];
             Property property = null;
             if (propertyAsString.contains(PROPERTY_NAME_COLOR)) {
-                property = Property.newBuilder().withColor(StringUtils.substringAfter(propertyAsString, PROPERTY_SEPARATOR)).build();
+                property = Property.newBuilder().withColor(StringUtils.substringAfter(propertyAsString, PROPERTY_DELIMITER)).build();
             } else if (propertyAsString.contains(PROPERTY_NAME_GB_LIMIT)) {
-                property = Property.newBuilder().withGbLimit(Integer.valueOf(StringUtils.substringAfter(propertyAsString, PROPERTY_SEPARATOR))).build();
+                property = Property.newBuilder().withGbLimit(Integer.valueOf(StringUtils.substringAfter(propertyAsString, PROPERTY_DELIMITER))).build();
             }
 
             productDao.save(ProductMapper.map(Product.newBuilder()
-                    .withCity(line[3] + TABLE_SEPARATOR + line[4])
+                    .withCity(line[3] + TABLE_DELIMITER + line[4])
                     .withPrice(Double.parseDouble(line[2]))
                     .withProperty(property)
                     .withType(line[0])

@@ -11,6 +11,7 @@ import javax.validation.constraints.Pattern;
 public class ProductEntity extends AbstractEntity {
     private String city;
     private Double price;
+
     @Pattern(regexp = ParameterConstraints.REGEXP_PHONE_OR_SUBSCRIPTION, message = "wrong parameters name")
     private String type;
 
