@@ -19,7 +19,7 @@ public class ProductServiceImpl implements ProductService {
     private static final String PROPERTY_NAME_GB_LIMIT = "gb_limit";
     private static final String PROPERTY_DELIMITER = ":";
     private static final String TABLE_DELIMITER = ",";
-    private static final String QUOTE = "\"";
+    private static final String QUOTES = "\"";
 
     private ProductDao productDao;
 
@@ -49,9 +49,16 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    @Override
+    public InfoResponse welcomeMessage() {
+        return InfoResponse.newBuilder()
+                .withResponse("Welcome to dockerized springboot task")
+                .build();
+    }
+
     private void saveToDatabase(String l) {
         try {
-            String[] line = l.replaceAll(QUOTE, "").split(TABLE_DELIMITER);
+            String[] line = l.replaceAll(QUOTES, "").split(TABLE_DELIMITER);
 
             String propertyAsString = line[1];
             Property property = null;

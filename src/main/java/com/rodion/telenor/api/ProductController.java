@@ -1,6 +1,5 @@
 package com.rodion.telenor.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.rodion.telenor.domain.DataResponse;
 import com.rodion.telenor.domain.InfoResponse;
 import com.rodion.telenor.domain.ProductSearchParameters;
@@ -26,24 +25,26 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/",
+            produces = {"application/json"},
+            method = RequestMethod.GET)
     public ResponseEntity<InfoResponse> welcome() {
-        InfoResponse response = InfoResponse.newBuilder()
-                .withResponse("Welcome to dockerized springboot task")
-                .build();
+        InfoResponse response = productService.welcomeMessage();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/data", method = RequestMethod.GET)
+    @RequestMapping(value = "/data",
+            produces = {"application/json"},
+            method = RequestMethod.GET)
     public ResponseEntity<InfoResponse> loadData() throws FileNotFoundException {
         InfoResponse response = productService.loadDataToDatabase();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     @RequestMapping(value = "/product",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public ResponseEntity<DataResponse> product(
             @RequestParam Optional<String> type,
             @RequestParam Optional<Number> min_price,
@@ -52,7 +53,7 @@ public class ProductController {
             @RequestParam Optional<String> property,
             @RequestParam Optional<String> property_color,
             @RequestParam Optional<Number> property_gb_limit_min,
-            @RequestParam Optional<Number> property_gb_limit_max) throws JsonProcessingException, IllegalAccessException {
+            @RequestParam Optional<Number> property_gb_limit_max) throws IllegalAccessException {
 
         DataResponse response = productService.findAll(ProductSearchParameters.newBuilder()
                 .withCity(city.orElse(null))

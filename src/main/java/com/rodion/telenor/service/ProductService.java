@@ -10,4 +10,6 @@ public interface ProductService {
     DataResponse findAll(ProductSearchParameters parameters) throws IllegalAccessException;
 
     InfoResponse loadDataToDatabase() throws FileNotFoundException;
+
+    InfoResponse welcomeMessage();
 }
