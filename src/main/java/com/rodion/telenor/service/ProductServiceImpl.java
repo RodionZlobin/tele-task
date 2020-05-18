@@ -1,5 +1,7 @@
 package com.rodion.telenor.service;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.rodion.telenor.dao.ProductDao;
 import com.rodion.telenor.domain.*;
 import com.rodion.telenor.mapper.ProductMapper;
@@ -11,6 +13,11 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -30,6 +37,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public DataResponse findAll(ProductSearchParameters parameters) throws IllegalAccessException {
+        if (getFields(parameters).isEmpty()) {
+            return DataResponse.newBuilder()
+                    .withData(Lists.newArrayList())
+                    .build();
+        }
+
         return DataResponse.newBuilder()
                 .withData(ProductMapper.mapToProductsList(ProductMapper.mapToProductList(productDao.findAll(ProductSpecification.createSearchSpecification(parameters)))))
                 .build();
@@ -54,6 +67,21 @@ public class ProductServiceImpl implements ProductService {
         return InfoResponse.newBuilder()
                 .withResponse("Welcome to dockerized springboot task")
                 .build();
+    }
+
+    private Set<Object> getFields(ProductSearchParameters parameters) throws IllegalAccessException {
+        Set<Field> declaredFields = Arrays.stream(parameters.getClass().getDeclaredFields())
+                .filter(f -> Objects.nonNull(f.getAnnotation(ProductSearchParametersField.class)))
+                .collect(Collectors.toSet());
+
+        Set<Object> fields = Sets.newHashSet();
+        for (Field field : declaredFields) {
+            field.setAccessible(true);
+            if (Objects.nonNull(field.get(parameters))) {
+                fields.add(String.valueOf(field.get(parameters)));
+            }
+        }
+        return fields;
     }
 
     private void saveToDatabase(String l) {

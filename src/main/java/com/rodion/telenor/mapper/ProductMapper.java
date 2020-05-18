@@ -1,5 +1,7 @@
 package com.rodion.telenor.mapper;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.rodion.telenor.domain.ApiProduct;
 import com.rodion.telenor.domain.Product;
 import com.rodion.telenor.domain.Property;
@@ -54,7 +56,7 @@ public class ProductMapper {
     }
 
     public static List<ApiProduct> mapToProductsList(List<Product> entities) throws IllegalAccessException {
-        List<ApiProduct> products = new ArrayList<>();
+        List<ApiProduct> products = Lists.newArrayList();
         if (entities.isEmpty()) {
             return products;
         }
@@ -65,8 +67,10 @@ public class ProductMapper {
     }
 
     private static String mapNotNullPropertiesToString(Property property) throws IllegalAccessException {
-        Set<Field> declaredFields = Arrays.stream(property.getClass().getDeclaredFields()).filter(f -> Objects.nonNull(f.getAnnotation(ProductsField.class))).collect(Collectors.toSet());
-        Map<String, String> fields = new HashMap<>();
+        Set<Field> declaredFields = Arrays.stream(property.getClass().getDeclaredFields())
+                .filter(f -> Objects.nonNull(f.getAnnotation(ProductsField.class)))
+                .collect(Collectors.toSet());
+        Map<String, String> fields = Maps.newHashMap();
         for (Field field : declaredFields) {
             field.setAccessible(true);
             if (Objects.nonNull(field.get(property))) {

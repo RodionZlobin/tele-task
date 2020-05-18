@@ -17,6 +17,7 @@
     <properties>
         <java.version>1.8</java.version>
         <apache.commons.version>3.10</apache.commons.version>
+        <guava.version>28.2-jre</guava.version>
         <javax.persistance.version>2.2</javax.persistance.version>
         <junit.version>4.13</junit.version>
     </properties>
@@ -58,6 +59,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${apache.commons.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>

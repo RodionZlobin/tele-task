@@ -5,42 +5,39 @@ import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class ProductControllerTest {
+public class ProductControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    ProductController productController;
+    private ProductController productController;
 
     @Autowired
     private ProductService productService;
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.productController).build();
     }
 
     @Test
-    void setProductService() {
+    public void setProductService() {
         Assert.assertNotNull(productService);
     }
 
     @Test
-    void welcome() throws Exception {
+    public void welcome() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith("application/json"))
@@ -48,7 +45,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void loadData() throws Exception {
+    public void loadData() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/data"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith("application/json"))
@@ -56,7 +53,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void product() throws Exception {
+    public void product() throws Exception {
         //loading data to DB
         mockMvc.perform(MockMvcRequestBuilders.get("/data"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -75,6 +72,12 @@ class ProductControllerTest {
 
         //reading data which could not be in DB (subscription and color are incompatible)
         mockMvc.perform(MockMvcRequestBuilders.get("/product?type=subscription&&property=color"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith("application/json"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data", Matchers.empty()));
+
+        //reading url with wrong parameters key (tpe - not type)
+        mockMvc.perform(MockMvcRequestBuilders.get("/product?tpe=subscription"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith("application/json"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data", Matchers.empty()));

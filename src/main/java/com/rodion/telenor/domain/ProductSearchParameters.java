@@ -1,15 +1,25 @@
 package com.rodion.telenor.domain;
 
+import com.rodion.telenor.service.ProductSearchParametersField;
+
 public class ProductSearchParameters extends ValueObject {
     private static final long serialVersionUID = 1L;
 
+    @ProductSearchParametersField
     private String city;
+    @ProductSearchParametersField
     private Double maxPrice;
+    @ProductSearchParametersField
     private Double minPrice;
+    @ProductSearchParametersField
     private String property;
+    @ProductSearchParametersField
     private String propertyColor;
+    @ProductSearchParametersField
     private Integer propertyGbLimitMax;
+    @ProductSearchParametersField
     private Integer propertyGbLimitMin;
+    @ProductSearchParametersField
     private String type;
 
     private ProductSearchParameters(Builder builder) {

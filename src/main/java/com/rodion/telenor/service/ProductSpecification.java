@@ -1,11 +1,11 @@
 package com.rodion.telenor.service;
 
+import com.google.common.collect.Lists;
 import com.rodion.telenor.domain.ProductSearchParameters;
 import com.rodion.telenor.entity.ProductEntity;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,7 +20,7 @@ public class ProductSpecification {
 
     public static Specification<ProductEntity> createSearchSpecification(ProductSearchParameters parameters) {
         return (Specification<ProductEntity>) (root, criteriaQuery, criteriaBuilder) -> {
-            List<Predicate> predicates = new ArrayList<>();
+            List<Predicate> predicates = Lists.newArrayList();
             if (Objects.nonNull(parameters.getType())) {
                 predicates.add(criteriaBuilder.and(criteriaBuilder.like(criteriaBuilder.lower(root.get(TYPE)), parameters.getType().toLowerCase())));
             }
