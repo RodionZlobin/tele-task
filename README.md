@@ -1,7 +1,7 @@
 # tele-task
 
 To start project:
-1. Pre-install and start docker on your computer
+1. Pre-install and start docker on your machine. Project use H2 in-memory database.
 2. Go to terminal
 3. Clone project: git clone https://github.com/RodionZlobin/tele-task.git
 4. Navigate to project root: cd tele-task
