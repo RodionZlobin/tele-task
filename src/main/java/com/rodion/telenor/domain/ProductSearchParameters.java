@@ -1,6 +1,8 @@
 package com.rodion.telenor.domain;
 
 public class ProductSearchParameters extends ValueObject {
+    private static final long serialVersionUID = 1L;
+
     private String city;
     private Double maxPrice;
     private Double minPrice;
