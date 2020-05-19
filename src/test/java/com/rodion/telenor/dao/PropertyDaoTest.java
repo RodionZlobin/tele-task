@@ -15,7 +15,7 @@ public class PropertyDaoTest {
     private PropertyDao propertyDao;
 
     @Test
-    public void writeAndReadData() {
+    public void testWriteAndReadData() {
         PropertyEntity propertyEntity = PropertyEntity.newBuilder()
                 .withColor("red")
                 .build();

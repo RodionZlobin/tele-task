@@ -16,7 +16,7 @@ public class ProductDaoTest {
     private ProductDao productDao;
 
     @Test
-    public void writeAndReadData() {
+    public void testWriteAndReadData() {
         ProductEntity productEntity = ProductEntity.newBuilder()
                 .withCity("Stockholm")
                 .withPrice(200d)

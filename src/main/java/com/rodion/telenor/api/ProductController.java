@@ -45,7 +45,7 @@ public class ProductController {
     @RequestMapping(value = "/product",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    public ResponseEntity<DataResponse> product(
+    public ResponseEntity<DataResponse> getProducts(
             @RequestParam Optional<String> type,
             @RequestParam Optional<Number> min_price,
             @RequestParam Optional<Number> max_price,

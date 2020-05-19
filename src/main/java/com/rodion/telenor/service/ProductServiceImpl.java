@@ -1,9 +1,9 @@
 package com.rodion.telenor.service;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.rodion.telenor.dao.ProductDao;
 import com.rodion.telenor.domain.*;
+import com.rodion.telenor.exception.EmptyParameterException;
 import com.rodion.telenor.mapper.ProductMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +38,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public DataResponse findAll(ProductSearchParameters parameters) throws IllegalAccessException {
         if (getFields(parameters).isEmpty()) {
-            return DataResponse.newBuilder()
-                    .withData(Lists.newArrayList())
-                    .build();
+            throw new EmptyParameterException("All parameters are empty");
         }
 
         return DataResponse.newBuilder()

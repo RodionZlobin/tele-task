@@ -37,7 +37,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void welcome() throws Exception {
+    public void testWelcomeMessage() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith("application/json"))
@@ -45,7 +45,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void loadData() throws Exception {
+    public void testLoadData() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/data"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith("application/json"))
@@ -53,7 +53,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void product() throws Exception {
+    public void testGetProducts() throws Exception {
         //loading data to DB
         mockMvc.perform(MockMvcRequestBuilders.get("/data"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -78,8 +78,12 @@ public class ProductControllerTest {
 
         //reading url with wrong parameters key (tpe - not type)
         mockMvc.perform(MockMvcRequestBuilders.get("/product?tpe=subscription"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith("application/json"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data", Matchers.empty()));
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.is("All parameters are empty")));
+
+        //reading url without any parameter
+        mockMvc.perform(MockMvcRequestBuilders.get("/product?type"))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message", Matchers.is("All parameters are empty")));
     }
 }
