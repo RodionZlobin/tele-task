@@ -6,7 +6,8 @@ import com.rodion.telenor.domain.ApiProduct;
 import com.rodion.telenor.domain.Product;
 import com.rodion.telenor.domain.Property;
 import com.rodion.telenor.entity.ProductEntity;
-import com.rodion.telenor.service.ProductsField;
+import com.rodion.telenor.exception.EmptyParameterException;
+import com.rodion.telenor.domain.ProductsField;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -67,18 +68,22 @@ public class ProductMapper {
     }
 
     private static String mapNotNullPropertiesToString(Property property) throws IllegalAccessException {
-        Set<Field> declaredFields = Arrays.stream(property.getClass().getDeclaredFields())
-                .filter(f -> Objects.nonNull(f.getAnnotation(ProductsField.class)))
-                .collect(Collectors.toSet());
-        Map<String, String> fields = Maps.newHashMap();
-        for (Field field : declaredFields) {
-            field.setAccessible(true);
-            if (Objects.nonNull(field.get(property))) {
-                fields.put(field.getName(), String.valueOf(field.get(property)));
+        try {
+            Set<Field> declaredFields = Arrays.stream(property.getClass().getDeclaredFields())
+                    .filter(f -> Objects.nonNull(f.getAnnotation(ProductsField.class)))
+                    .collect(Collectors.toSet());
+            Map<String, String> fields = Maps.newHashMap();
+            for (Field field : declaredFields) {
+                field.setAccessible(true);
+                if (Objects.nonNull(field.get(property))) {
+                    fields.put(field.getName(), String.valueOf(field.get(property)));
+                }
             }
+            return fields.entrySet().stream()
+                    .map(f -> f.getKey() + VALUE_DELIMITER + f.getValue())
+                    .collect(Collectors.joining(PROPERTY_DELIMITER));
+        } catch (IllegalAccessException e) {
+            throw new EmptyParameterException("Wrong parameter value");
         }
-        return fields.entrySet().stream()
-                .map(f -> f.getKey() + VALUE_DELIMITER + f.getValue())
-                .collect(Collectors.joining(PROPERTY_DELIMITER));
     }
 }

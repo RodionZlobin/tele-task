@@ -1,7 +1,5 @@
 package com.rodion.telenor.domain;
 
-import com.rodion.telenor.service.ProductSearchParametersField;
-
 public class ProductSearchParameters extends ValueObject {
     private static final long serialVersionUID = 1L;
 

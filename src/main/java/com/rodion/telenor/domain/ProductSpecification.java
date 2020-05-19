@@ -1,4 +1,4 @@
-package com.rodion.telenor.service;
+package com.rodion.telenor.domain;
 
 import com.google.common.collect.Lists;
 import com.rodion.telenor.domain.ProductSearchParameters;

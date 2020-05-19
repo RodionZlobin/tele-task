@@ -1,4 +1,4 @@
-package com.rodion.telenor.service;
+package com.rodion.telenor.domain;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
