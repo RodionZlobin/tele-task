@@ -21,6 +21,6 @@ public class ApiExceptionHandler {
     public ResponseEntity<ApiError> wrongParameterException(InvalidDataAccessApiUsageException e) {
         String message = e.getMessage() == null ? "Wrong request parameter value" : e.getMessage();
         ApiError apiError = ApiError.newBuilder().withMessage(message).build();
-        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(apiError, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
